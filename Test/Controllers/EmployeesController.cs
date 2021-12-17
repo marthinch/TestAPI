@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,25 +11,34 @@ namespace Test.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private static List<Employee> employees = new List<Employee>();
+        private static List<Employee> employees = DataEmployees();
 
         public EmployeesController()
         {
+
+        }
+
+        private static List<Employee> DataEmployees()
+        {
+            List<Employee> employees = new List<Employee>();
+
             for (int i = 0; i < 10; i++)
             {
                 employees.Add(new Employee { Id = i + 1, Name = "Employee " + i, Phone = i.ToString() });
             }
+
+            return employees;
         }
 
         [HttpGet("/api/employees")]
         public IEnumerable<Employee> Employees([FromQuery] EmployeePaging paging)
         {
-            if(!string.IsNullOrEmpty(paging.Search))
+            if (!string.IsNullOrEmpty(paging.Search))
                 employees = employees.Where(a => a.Name == paging.Search).ToList();
 
-            if(!string.IsNullOrEmpty(paging.SortBy))
+            if (!string.IsNullOrEmpty(paging.SortBy))
             {
-                if(paging.SortBy == "Id")
+                if (paging.SortBy == "Id")
                 {
                     employees = employees.OrderBy(a => a.Id).ToList();
                 }
