@@ -1,0 +1,6 @@
+TestAPI/bin/
+TestAPI/obj/
+.vs/
+obj/
+TestAPIUnitTest/bin/
+bin/
